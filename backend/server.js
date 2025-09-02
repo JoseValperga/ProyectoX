@@ -4,9 +4,11 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import crypto from "crypto";
 import { SiweMessage } from "siwe";
+import morgan from "morgan";
 
 const app = express();
 
+app.use(morgan("dev"));
 // CORS: el front (http://localhost:5173) y también Postman (sin Origin)
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
