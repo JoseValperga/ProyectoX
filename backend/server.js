@@ -9,7 +9,6 @@ import morgan from "morgan";
 const app = express();
 
 app.use(morgan("dev"));
-// CORS: el front (http://localhost:5173) y también Postman (sin Origin)
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
@@ -17,6 +16,7 @@ app.use(cookieParser());
 // Logger para ver qué llega
 app.use((req, _res, next) => {
   console.log(req.method, req.url);
+
   next();
 });
 
@@ -25,8 +25,7 @@ app.get("/ping", (_req, res) => res.json({ ok: true }));
 
 // 1) NONCE
 app.get("/auth/nonce", (req, res) => {
-  const nonce = crypto.randomBytes(16).toString("hex"); // ✅ solo [0-9a-f]
-  //const nonce = crypto.randomBytes(16).toString("base64url");
+  const nonce = crypto.randomBytes(16).toString("hex");
   res.cookie("siwe_nonce", nonce, {
     httpOnly: true,
     sameSite: "lax",
