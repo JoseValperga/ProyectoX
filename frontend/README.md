@@ -155,7 +155,6 @@ Algunos cambian la red en sí (core), otros definen cómo deben comportarse los 
 * **EIP-4361 (SIWE)**: Formato del mensaje “Sign-In With Ethereum”.
 * **EIP-191**: Firmas personales (usado por `personal_sign`).
 * **EIP-55**: Direcciones con checksum (usamos `getAddress` de `ethers`).
-* (Opcional) **EIP-712**: Firmas de datos tipados (`eth_signTypedData_v4`).
 
 ---
 
