@@ -131,6 +131,29 @@ app.post("/auth/siwe", async (req, res) => {
     return res.status(401).json({ ok: false, error: "Firma no válida o verificación fallida" });
   }
 });
+/*
+  Logout:
+  - El frontend hace POST /auth/logout con credentials: "include"
+  - Aquí limpiamos cookies HttpOnly relacionadas a la sesión.
+  - Si en el futuro emitís access_token / refresh_token, ya queda contemplado.
+*/
+
+app.post("/auth/logout", (req, res) => {
+  try {
+    // Limpio cookies de sesión
+    res.clearCookie("access_token");   // preparado por si utilizo JWT de acceso
+    res.clearCookie("refresh_token");  // preparado por si utilizo JWT de refresh
+    res.clearCookie("siwe_nonce");     // limpio nonce residual
+
+    // NOTA: En este backend mínimo no hay store de sesión, así que alcanza con limpiar cookies.
+
+    return res.json({ ok: true, message: "Sesión cerrada" });
+  } catch (error) {
+    console.log("Logout error:", error); //para investigar
+    // Aun si algo falla, devolvemos ok para no bloquear al usuario.
+    return res.json({ ok: true, message: "Sesión cerrada" });
+  }
+});
 
 app.listen(3001, () => {
   console.log("SIWE backend en http://localhost:3001");
